@@ -96,11 +96,11 @@ def sample_from_transcripts(file, training_params, training_output):
     #creating a list of lists
     
     bp_length = training_params.get('max_read_length')
-    for row in converted_df:
+    for row in file: #converted_df:
         i = 0
         if len(row) < bp_length:
             row = row.ljust(bp_length, 'N')
-    
+            #completed_array.append(row.ljust(bp_length, 'N'))
         while len(row) - i >= bp_length:
             
             new_string = row[i:bp_length+i]
@@ -112,6 +112,7 @@ def sample_from_transcripts(file, training_params, training_output):
             completed_array.append(new_string)
             #using the training_output to append to completed_array_class 
             completed_array_class.append(training_output)
+            completed_array.append(new_string)
             
             i = i + 1
 
@@ -153,26 +154,6 @@ def reads_to_numpy(input):#reads, training_parameters):
 
 #print(tensor_array)
 
-
-
-total_tensor_class = []
-total_tensor_array = []
-
-for index in output_paths:
-    temp_array = []
-    temp_combo = sample_from_transcripts(output_paths[index], training_params, output_classes[index])
-    temp_array = temp_combo[0]
-    temp_class = temp_combo[1]
-    
-    total_tensor_class = total_tensor_class+temp_class
-    total_tensor_array = total_tensor_array+temp_array
-
-
-#total_tensor_array = reads_to_numpy(total_tensor_array)
-#total_tensor_class = np.asarray(total_tensor_class).astype('float32')
-
-#print(total_tensor_array)
-#print(total_tensor_class)
 
 ### so our results will look like this:
 '''
