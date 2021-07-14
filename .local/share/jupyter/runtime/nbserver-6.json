@@ -3,7 +3,7 @@
   "hostname": "0.0.0.0",
   "notebook_dir": "/home/jovyan",
   "password": false,
-  "pid": 7,
+  "pid": 6,
   "port": 8888,
   "secure": false,
   "sock": "",
