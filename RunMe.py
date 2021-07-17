@@ -1,18 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[25]:
+# In[1]:
 
 
 from sfseventools.training import FastmSampler, sample_from_transcripts, build_train_sets, shuffle_x_y_together
 import numpy as np
 import sys
+import random
 
 # To see whole NP array. USE WITH CAUTION
 # np.set_printoptions(threshold=sys.maxsize)
 
 
-# In[14]:
+# In[15]:
 
 
 uid = ">"
@@ -51,7 +52,7 @@ file_paths ={
     #'hla_micb':8,
     #'hla_kir':9
     'non-hla': 0
-    #'sample':0
+    
     
 }
 output_paths= {
@@ -64,13 +65,17 @@ output_paths= {
     #'hla_tap':"data/Sample/hla_tap2.fastm",
     #'hla_mica':"data/Sample/hla_mica2.fastm",
     #'hla_micb':"data/Sample/hla_micb2.fastm",
-   # 'sample'  :"data/Original/sample.fastm"
+    #'sample'  :"data/Original/sample.fastm"
     'non-hla' :"data/Sample/refMrna.fastm"
 }
 
-#output_number = len(output_classes)
 
-# In[18]:
+with open("data/Original/sample.fastm") as myfile:
+    head = [next(myfile) for x in range(2)]
+#print(head)
+
+
+# In[16]:
 
 
 training_params = {
@@ -103,7 +108,6 @@ output_classes = {
 }
 
 
-output_number = len(output_classes)
 
 mp = {
         'max_read_length':400,
@@ -112,19 +116,32 @@ mp = {
         'metrics':['accuracy'],
         'num_classes': len(output_classes.keys())
     }
+    
+'''
+training_params = {
+    'num_samples': 1000,
+    'batch_size': 100,
+    'nb_epochs' : 2000,
+    'learning_rate': 1e-4,
+    'n_prob_upper_limit':.06,
+    'mutation_prob_upper_limit':.02,
+    'delete_prob_upper_limit':.015,
+    'insert_prob_upper_limit':.015,
+    'min_read_length':75,
+    'b_randomize_location':False,
+    'b_randomize_direction':False
+}
+'''
+
+output_number = len(output_classes)
+print(output_number)
 
 
-# In[19]:
-
-
-#for key,value in output_paths.items():
-#    print(key,value)
-
-
-# In[20]:
+# In[18]:
 
 
 num_classes = len(output_classes.keys())
+print(num_classes)
 for train_class, idx in output_classes.items():
     output_arr = np.zeros(num_classes)
     output_arr[idx] = 1
@@ -142,34 +159,41 @@ for train_class, idx in output_classes.items():
                         sep=sep,
                         ender = ender
                        )
+    print(train_class,idx,output_arr)
     fastm_samplers.append(train_sampler)
 
 
-# In[21]:
+# In[19]:
 
 
 X_train,y_train,X_test,y_test = build_train_sets(data_samplers=fastm_samplers,
                   sample_size = training_params['num_samples'])
 
 
-# In[22]:
-
-
-X_train[0]
-
-
-# In[23]:
-
-
-y_train[0:10]
-
-
-# In[24]:
+# In[20]:
 
 
 X_train, y_train = shuffle_x_y_together(X_train,y_train)
-print(X_train.shape)
-print(y_train.shape)
+
+
+# In[21]:
+
+
+random.shuffle(X_train)
+random.shuffle(X_test)
+random.shuffle(y_train)
+random.shuffle(y_test)
+
+#x_data = np.concatenate((X_train,X_test),axis=0)
+#y_data = np.concatenate((y_train,y_test),axis=0)
+
+# In[25]:
+
+
+#print(X_train)
+#print(y_train)
+#print(X_test)
+#print(y_test)
 
 
 # In[ ]:
