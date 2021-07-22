@@ -22,3 +22,8 @@ git add .
 git commit -m "Commit 7/12"
 git remote add origin https://github.com/sramesh-18/sramesh-18.git
 git push -u origin
+git init
+git init -b main
+git add .
+git commit -m "Commit 7/16"
+git push -u origin main

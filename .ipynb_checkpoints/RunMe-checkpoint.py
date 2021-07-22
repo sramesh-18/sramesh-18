@@ -41,32 +41,30 @@ file_paths ={
     #*'non-hla': ([0,0,0,0,1])
     #'neither': ([0,0,0,0,0,0])
     #'sample': ([0,0,0,0,1])
-    'hla_a'  :1,
+    'hla_a'  :0,
     #'hla_b'  :1,
     #'hla_c'  :2,
-    'hla_dp' :2,
-    'hla_dq' :3,
-    'hla_dr' :4,
+    'hla_dp' :1,
+    'hla_dq' :2,
+    'hla_dr' :3,
     #'hla_tap':6,
     #'hla_mica':7,
-    #'hla_micb':8,
-    #'hla_kir':9
-    'non-hla': 0
-    
+    #'hla_micb':8
+    'non-hla': 4
     
 }
 output_paths= {
-    'hla_a'  :"data/Sample/hla_a2.fastm",
-    #'hla_b'  :"data/Sample/hla_b2.fastm",
-    #'hla_c'  :"data/Sample/hla_c2.fastm",
-    'hla_dp' :"data/Sample/hla_dp2.fastm",
-    'hla_dq' :"data/Sample/hla_dq2.fastm",
-    'hla_dr' :"data/Sample/hla_dr2.fastm",
-    #'hla_tap':"data/Sample/hla_tap2.fastm",
-    #'hla_mica':"data/Sample/hla_mica2.fastm",
-    #'hla_micb':"data/Sample/hla_micb2.fastm",
-    #'sample'  :"data/Original/sample.fastm"
-    'non-hla' :"data/Sample/refMrna.fastm"
+    'hla_a'  :"/home/jovyan/data/Original/hla_a.fastm",
+    #'hla_b'  :"/home/jovyan/data/Original/hla_b.fastm",
+    #'hla_c'  :"/home/jovyan/data/Original/hla_c.fastm",
+    'hla_dp' :"/home/jovyan/data/Original/hla_dp.fastm",
+    'hla_dq' :"/home/jovyan/data/Original/hla_dq.fastm",
+    'hla_dr' :"/home/jovyan/data/Original/hla_dr.fastm",
+    #'hla_tap':"/home/jovyan/data/Original/hla_tap.fastm",
+    #'hla_mica':"/home/jovyan/data/Original/hla_mica.fastm",
+    #'hla_micb':"/home/jovyan/data/Original/hla_micb.fastm"
+   # 'sample'  :"data/Original/sample.fastm"
+    'non-hla' :"/home/jovyan/data/Sample/refMrna.fastm"
 }
 
 
@@ -93,24 +91,20 @@ training_params = {
 }
 
 output_classes = {
-    'hla_a'  :1,
+    'hla_a'  :0,
     #'hla_b'  :1,
     #'hla_c'  :2,
-    'hla_dp' :2,
-    'hla_dq' :3,
-    'hla_dr' :4,
+    'hla_dp' :1,
+    'hla_dq' :2,
+    'hla_dr' :3,
     #'hla_tap':6,
     #'hla_mica':7,
-    #'hla_micb':8,
-    #'hla_kir':9
-    'non-hla': 0
-    #'sample':0
+    #'hla_micb':8
+    'non-hla': 4
 }
 
-
-
 mp = {
-        'max_read_length':400,
+        'max_read_length':150,
         'loss':'binary_crossentropy',
         'optimizer':'rmsprop',
         'metrics':['accuracy'],
@@ -154,7 +148,7 @@ for train_class, idx in output_classes.items():
                         tensor_length=mp['max_read_length'],
                         b_randomize_location=training_params['b_randomize_location'],
                         b_randomize_direction=training_params['b_randomize_direction'],
-                        training_output=output_arr,
+                        training_output=idx,
                         uid=uid,
                         sep=sep,
                         ender = ender
@@ -173,19 +167,19 @@ X_train,y_train,X_test,y_test = build_train_sets(data_samplers=fastm_samplers,
 # In[20]:
 
 
-X_train, y_train = shuffle_x_y_together(X_train,y_train)
+#X_train, y_train = shuffle_x_y_together(X_train,y_train)
 
 
 # In[21]:
 
 
-random.shuffle(X_train)
-random.shuffle(X_test)
-random.shuffle(y_train)
-random.shuffle(y_test)
+#random.shuffle(X_train)
+#random.shuffle(X_test)
+#random.shuffle(y_train)
+#random.shuffle(y_test)
 
-#x_data = np.concatenate((X_train,X_test),axis=0)
-#y_data = np.concatenate((y_train,y_test),axis=0)
+x_data = np.concatenate((X_train,X_test),axis=0)
+y_data = np.concatenate((y_train,y_test),axis=0)
 
 # In[25]:
 
