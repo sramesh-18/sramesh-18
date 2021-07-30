@@ -22,55 +22,34 @@ ender = ";"
 fastm_samplers = []
 
 file_paths ={
-#ref_rna_path = {
-    #'hla_a'  :np.asarray([1,0,0,0,0,0,0,0,0]),
-    #'hla_b'  :np.asarray([0,1,0,0,0,0,0,0,0]),
-    #'hla_c'  :np.asarray([0,0,1,0,0,0,0,0,0]),
-    #'hla_dp' :np.asarray([0,0,0,1,0,0,0,0,0]),
-    #'hla_dq' :np.asarray([0,0,0,0,1,0,0,0,0]),
-    #'hla_dr' :np.asarray([0,0,0,0,0,1,0,0,0]),
-    #'hla_tap':np.asarray([0,0,0,0,0,0,1,0,0]),
-    #'hla_mica':np.asarray([0,0,0,0,0,0,0,1,0]),
-    #'hla_micb':np.asarray([0,0,0,0,0,0,0,0,1]),
-    #'hla_kir':np.asarray([0,0,0,0,0,0,0,0,1])
-    #*'hla_a':np.asarray([1,0,0,0,0]),
-    #*'hla_dp':np.asarray([0,1,0,0,0]),
-    #*'hla_dq':np.asarray([0,0,1,0,0]),
-    #*'hla_dr':([0,0,0,1,0]),
-    #'hla_dr_copy':np.asarray([0,0,0,0,1])
-    #*'non-hla': ([0,0,0,0,1])
-    #'neither': ([0,0,0,0,0,0])
-    #'sample': ([0,0,0,0,1])
     'hla_a'  :0,
-    #'hla_b'  :1,
-    #'hla_c'  :2,
-    'hla_dp' :1,
-    'hla_dq' :2,
-    'hla_dr' :3,
-    #'hla_tap':6,
-    #'hla_mica':7,
-    #'hla_micb':8
-    'non-hla': 4
+    'hla_b'  :1,
+    'hla_c'  :2,
+    'hla_dp' :3,
+    'hla_dq' :4,
+    'hla_dr' :5,
+    'hla_tap':6,
+    'hla_mica':7,
+    'hla_micb':8,
+    'non-hla': 9
     
 }
 output_paths= {
     'hla_a'  :"/home/jovyan/data/Original/hla_a.fastm",
-    #'hla_b'  :"/home/jovyan/data/Original/hla_b.fastm",
-    #'hla_c'  :"/home/jovyan/data/Original/hla_c.fastm",
+    'hla_b'  :"/home/jovyan/data/Original/hla_b.fastm",
+    'hla_c'  :"/home/jovyan/data/Original/hla_c.fastm",
     'hla_dp' :"/home/jovyan/data/Original/hla_dp.fastm",
     'hla_dq' :"/home/jovyan/data/Original/hla_dq.fastm",
     'hla_dr' :"/home/jovyan/data/Original/hla_dr.fastm",
-    #'hla_tap':"/home/jovyan/data/Original/hla_tap.fastm",
-    #'hla_mica':"/home/jovyan/data/Original/hla_mica.fastm",
-    #'hla_micb':"/home/jovyan/data/Original/hla_micb.fastm"
-   # 'sample'  :"data/Original/sample.fastm"
-    'non-hla' :"/home/jovyan/data/Sample/refMrna.fastm"
+    'hla_tap':"/home/jovyan/data/Original/hla_tap.fastm",
+    'hla_mica':"/home/jovyan/data/Original/hla_mica.fastm",
+    'hla_micb':"/home/jovyan/data/Original/hla_micb.fastm",
+    'non-hla':"/home/jovyan/data/Sample/refMrna.fastm"
 }
 
 
 with open("data/Original/sample.fastm") as myfile:
     head = [next(myfile) for x in range(2)]
-#print(head)
 
 
 # In[16]:
@@ -92,15 +71,15 @@ training_params = {
 
 output_classes = {
     'hla_a'  :0,
-    #'hla_b'  :1,
-    #'hla_c'  :2,
-    'hla_dp' :1,
-    'hla_dq' :2,
-    'hla_dr' :3,
-    #'hla_tap':6,
-    #'hla_mica':7,
-    #'hla_micb':8
-    'non-hla': 4
+    'hla_b'  :1,
+    'hla_c'  :2,
+    'hla_dp' :3,
+    'hla_dq' :4,
+    'hla_dr' :5,
+    'hla_tap':6,
+    'hla_mica':7,
+    'hla_micb':8,
+    'non-hla': 9
 }
 
 mp = {
@@ -135,7 +114,6 @@ print(output_number)
 
 
 num_classes = len(output_classes.keys())
-print(num_classes)
 for train_class, idx in output_classes.items():
     output_arr = np.zeros(num_classes)
     output_arr[idx] = 1
@@ -153,7 +131,6 @@ for train_class, idx in output_classes.items():
                         sep=sep,
                         ender = ender
                        )
-    print(train_class,idx,output_arr)
     fastm_samplers.append(train_sampler)
 
 
@@ -172,23 +149,11 @@ X_train,y_train,X_test,y_test = build_train_sets(data_samplers=fastm_samplers,
 
 # In[21]:
 
-
-#random.shuffle(X_train)
-#random.shuffle(X_test)
-#random.shuffle(y_train)
-#random.shuffle(y_test)
-
 x_data = np.concatenate((X_train,X_test),axis=0)
 y_data = np.concatenate((y_train,y_test),axis=0)
 
+
 # In[25]:
-
-
-#print(X_train)
-#print(y_train)
-#print(X_test)
-#print(y_test)
-
 
 # In[ ]:
 
